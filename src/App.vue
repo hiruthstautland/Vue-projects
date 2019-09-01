@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <AddTodo />
+    <AddTodo v-on:add-todo="addTodo" />
     <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo" />
   </div>
 </template>
@@ -15,39 +15,42 @@ export default {
   name: "app",
   components: {
     Header,
-    Todos,
-    AddTodo
+    AddTodo,
+    Todos
   },
   data() {
     return {
-      todos: [
-        {
-          id: 1,
-          title: "First task",
-          completed: false
-        },
-        {
-          id: 2,
-          title: "Second task",
-          completed: false
-        },
-        {
-          id: 3,
-          title: "Third task",
-          completed: false
-        },
-        {
-          id: 4,
-          title: "Fourth task",
-          completed: false
-        }
-      ]
+      todos: []
     };
   },
   methods: {
     deleteTodo(id) {
-      this.todos = this.todos.filter(todo => todo.id != id);
+      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+        method: "DELETE"
+      })
+        .then(response => response.json())
+        .then(data => (this.todos = this.todos.filter(todo => todo.id != id)))
+        .catch(error => console.log(error));
+    },
+    //spread current todos in first parameters and add new todo in second parameters
+    addTodo(newTodo) {
+      const { title, completed } = newTodo;
+      fetch("https://jsonplaceholder.typicode.com/todos", {
+        method: "POST",
+        title,
+        completed
+      })
+        .then(response => response.json())
+        .then(data => (this.todos = [...this.todos, data]))
+        .catch(error => console.log(error));
     }
+  },
+  created() {
+    fetch("https://jsonplaceholder.typicode.com/todos?_limit=4", {
+      method: "GET"
+    })
+      .then(response => response.json())
+      .then(data => (this.todos = data));
   }
 };
 </script>
@@ -58,7 +61,6 @@ export default {
   margin: 0;
   padding: 0;
 }
-
 body {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   /* -webkit-font-smoothing: antialiased;

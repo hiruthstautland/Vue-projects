@@ -15,6 +15,18 @@ export default {
     return {
       title: ""
     };
+  },
+  methods: {
+    addTodo(e) {
+      e.preventDefault();
+      const newTodo = {
+        title: this.title,
+        completed: false
+      };
+      //Send addTodo() up to parent
+      this.$emit("add-todo", newTodo);
+      this.title = "";
+    }
   }
 };
 </script>
