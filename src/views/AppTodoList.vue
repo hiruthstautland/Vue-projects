@@ -28,8 +28,11 @@ export default {
       fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
         method: "DELETE"
       })
-        .then(response => response.json())
-        .then(data => (this.todos = this.todos.filter(todo => todo.id != id)))
+        .then(response => {
+          // console.log(response);
+          return response.json();
+        })
+        .then(() => (this.todos = this.todos.filter(todo => todo.id != id)))
         .catch(error => console.log(error));
     },
     //spread current todos in first parameters and add new todo in second parameters
@@ -42,7 +45,10 @@ export default {
       })
         .then(response => response.json())
         .then(data => (this.todos = [...this.todos, data]))
-        .catch(error => console.log(error));
+        .catch(error => {
+          console.log(`error: ${error} `);
+          return error;
+        });
     }
   },
   created() {
@@ -67,6 +73,7 @@ body {
   -moz-osx-font-smoothing: grayscale; */
   line-height: 1.4;
   color: #3d5e80;
+  padding: 1rem;
 }
 .btn {
   padding: 7px 20px;

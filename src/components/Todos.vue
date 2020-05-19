@@ -22,4 +22,7 @@ export default {
 
 <!-- Style -->
 <style scoped>
+.todo {
+  margin: 0 2rem;
+}
 </style>

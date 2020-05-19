@@ -1,6 +1,6 @@
 <template>
   <div class="calculator">
-    <div class="display">{{sum || '0'}}</div>
+    <div class="display">{{ sum || "0" }}</div>
     <div class="btn-calc" @click="clear">AC</div>
     <div class="btn-calc" @click="sign">+/-</div>
     <div class="btn-calc" @click="percent">%</div>
@@ -31,7 +31,7 @@ export default {
       previous: null,
       sum: "",
       operator: null,
-      operatorClicked: false
+      operatorClicked: false,
     };
   },
   methods: {
@@ -81,7 +81,6 @@ export default {
     equal() {
       if (this.sum === "") {
         this.sum = this.sum;
-      } else if ((this.sum = this.sum)) {
       } else {
         this.sum = `${this.operator(
           parseFloat(this.sum),
@@ -89,8 +88,8 @@ export default {
         )}`;
       }
       this.previous = null;
-    }
-  }
+    },
+  },
 };
 </script>
 
